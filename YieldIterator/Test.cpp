@@ -4,7 +4,7 @@
 
 #include "YieldIterator.h"
 
-struct ListIter : YieldInterator<int, ListIter> { // not here
+struct ListIter : YieldInterator<int, ListIter> { // note here
 
 	void interate();
 
