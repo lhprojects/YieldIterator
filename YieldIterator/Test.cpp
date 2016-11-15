@@ -4,7 +4,20 @@
 
 #include "YieldIterator.h"
 
-struct ListIter : YieldInterator<int, ListIter> { // not here
+struct ListIter;
+struct List {
+
+	List() {
+		for (int i = 0; i < 1000; ++i) {
+			fList.push_back(i);
+		}
+	}
+	ListIter begin();
+	std::list<int> fList;
+};
+
+
+struct ListIter : YieldInterator<int, ListIter> { // note here
 
 	void interate();
 
@@ -15,17 +28,6 @@ private:
 	std::list<int>::iterator it;
 	std::list<int>::iterator end;
 
-};
-
-struct List {
-
-	List() {
-		for (int i = 0; i < 1000; ++i) {
-			fList.push_back(i);
-		}
-	}
-	ListIter Begin() { return ListIter(this); }
-	std::list<int> fList;
 };
 
 inline ListIter::ListIter(List *list) {
@@ -43,6 +45,8 @@ void ListIter::interate() { // note here
 	YIELD_ITERATOR_END();
 }
 
+ListIter List::begin() { return ListIter(this); }
+
 
 int main() {
 	using namespace std::chrono;
@@ -56,7 +60,7 @@ int main() {
 	auto t0 = clock::now();
 	c = cc;
 	for (int i = 0; i < loop; ++i) {
-		for (auto i = l.Begin(); !i.empty(); i.step()) {
+		for (auto i = l.begin(); !i.step();) {
 			c += c*i.value()*i.value() + (i.value() >> 1);
 		}
 	}
