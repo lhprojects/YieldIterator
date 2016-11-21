@@ -16,7 +16,6 @@ struct List {
 	std::list<int> fList;
 };
 
-
 struct ListIter : YieldInterator<int, ListIter> { // note here
 
 	void interate();
